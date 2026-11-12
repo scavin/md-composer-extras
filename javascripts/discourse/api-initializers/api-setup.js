@@ -17,29 +17,126 @@ export default apiInitializer("0.11.1", (api) => {
   const { iconNode } = require("discourse-common/lib/icon-library");
   const currentLocale = I18n.currentLocale();
 
-  // Localization setup - keep only the button titles in translations
-  I18n.translations[currentLocale].js.underline_button_title = settings.underline_button;
-  I18n.translations[currentLocale].js.align_center_button_title = settings.align_center_button;
-  I18n.translations[currentLocale].js.align_right_button_title = settings.align_right_button;
-  I18n.translations[currentLocale].js.align_justify_button_title = settings.align_justify_button;
-  I18n.translations[currentLocale].js.strikethrough_button_title = settings.strikethrough_button;
-  I18n.translations[currentLocale].js.superscript_button_title = settings.superscript_button;
-  I18n.translations[currentLocale].js.subscript_button_title = settings.subscript_button;
-  I18n.translations[currentLocale].js.columns_button_title = settings.columns_button;
-  I18n.translations[currentLocale].js.align_left_button_title = settings.align_left_button;
-  I18n.translations[currentLocale].js.float_left_button = settings.float_left_button;
-  I18n.translations[currentLocale].js.highlight_button_title = settings.highlighter_button;
-  I18n.translations[currentLocale].js.composer.highlighter_text = settings.highlighter_text;
-  I18n.translations[currentLocale].js.composer.underline_text = settings.underline_text;
-  I18n.translations[currentLocale].js.composer.align_center_text = settings.align_center_text;
-  I18n.translations[currentLocale].js.composer.align_left_text = settings.align_left_text;
-  I18n.translations[currentLocale].js.composer.align_right_text = settings.align_right_text;
-  I18n.translations[currentLocale].js.composer.align_justify_text = settings.align_justify_text;
-  I18n.translations[currentLocale].js.composer.strikethrough_text = settings.strikethrough_text;
-  I18n.translations[currentLocale].js.composer.superscript_text = settings.superscript_text;
-  I18n.translations[currentLocale].js.composer.subscript_text = settings.subscript_text;
-  I18n.translations[currentLocale].js.composer.columns_text = settings.columns_text;
-  I18n.translations[currentLocale].js.composer.float_left_text = settings.float_left_text;
+  // Localize stock text while preserving administrator-supplied titles/placeholders.
+  // Keep the existing global keys used by toolbar titles and applySurround.
+  const localizedSetting = (name, defaultValue, translationKey) => {
+    const value = settings[name];
+    return value === undefined || value === defaultValue
+      ? I18n.t(themePrefix(translationKey))
+      : value;
+  };
+
+  // Existing title and composer placeholder keys consumed by the format actions.
+  I18n.translations[currentLocale].js.underline_button_title = localizedSetting(
+    "underline_button",
+    "Underline",
+    "underline_button_title",
+  );
+  I18n.translations[currentLocale].js.align_center_button_title = localizedSetting(
+    "align_center_button",
+    "Center",
+    "align_center_button_title",
+  );
+  I18n.translations[currentLocale].js.align_right_button_title = localizedSetting(
+    "align_right_button",
+    "Align right",
+    "align_right_button_title",
+  );
+  I18n.translations[currentLocale].js.align_justify_button_title = localizedSetting(
+    "align_justify_button",
+    "Justify",
+    "align_justify_button_title",
+  );
+  I18n.translations[currentLocale].js.strikethrough_button_title = localizedSetting(
+    "strikethrough_button",
+    "Strike-through",
+    "strikethrough_button_title",
+  );
+  I18n.translations[currentLocale].js.superscript_button_title = localizedSetting(
+    "superscript_button",
+    "Superscript",
+    "superscript_button_title",
+  );
+  I18n.translations[currentLocale].js.subscript_button_title = localizedSetting(
+    "subscript_button",
+    "Subscript",
+    "subscript_button_title",
+  );
+  I18n.translations[currentLocale].js.columns_button_title = localizedSetting(
+    "columns_button",
+    "Columns",
+    "columns_button_title",
+  );
+  I18n.translations[currentLocale].js.align_left_button_title = localizedSetting(
+    "align_left_button",
+    "Align left",
+    "align_left_button_title",
+  );
+  I18n.translations[currentLocale].js.float_left_button = localizedSetting(
+    "float_left_button",
+    "Float left",
+    "float_left_button",
+  );
+  I18n.translations[currentLocale].js.highlight_button_title = localizedSetting(
+    "highlighter_button",
+    "Highlighter",
+    "highlight_button_title",
+  );
+  I18n.translations[currentLocale].js.composer.highlighter_text = localizedSetting(
+    "highlighter_text",
+    "Text",
+    "highlighter_text",
+  );
+  I18n.translations[currentLocale].js.composer.underline_text = localizedSetting(
+    "underline_text",
+    "Text",
+    "underline_text",
+  );
+  I18n.translations[currentLocale].js.composer.align_center_text = localizedSetting(
+    "align_center_text",
+    "Text",
+    "align_center_text",
+  );
+  I18n.translations[currentLocale].js.composer.align_left_text = localizedSetting(
+    "align_left_text",
+    "Text",
+    "align_left_text",
+  );
+  I18n.translations[currentLocale].js.composer.align_right_text = localizedSetting(
+    "align_right_text",
+    "Text",
+    "align_right_text",
+  );
+  I18n.translations[currentLocale].js.composer.align_justify_text = localizedSetting(
+    "align_justify_text",
+    "Text",
+    "align_justify_text",
+  );
+  I18n.translations[currentLocale].js.composer.strikethrough_text = localizedSetting(
+    "strikethrough_text",
+    "Text",
+    "strikethrough_text",
+  );
+  I18n.translations[currentLocale].js.composer.superscript_text = localizedSetting(
+    "superscript_text",
+    "Text",
+    "superscript_text",
+  );
+  I18n.translations[currentLocale].js.composer.subscript_text = localizedSetting(
+    "subscript_text",
+    "Text",
+    "subscript_text",
+  );
+  I18n.translations[currentLocale].js.composer.columns_text = localizedSetting(
+    "columns_text",
+    "Use the closing tag to mark where the first column ends. The second column will autobreak.",
+    "columns_text",
+  );
+  I18n.translations[currentLocale].js.composer.float_left_text = localizedSetting(
+    "float_left_text",
+    "Text",
+    "float_left_text",
+  );
 
   // One definition per format keeps both locations using the same action.
   const buttons = [
