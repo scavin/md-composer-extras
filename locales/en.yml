@@ -1,25 +1,139 @@
 en:
+  theme_metadata:
+    description: "Add 11 formatting buttons to the Discourse composer with independent placement settings."
+    settings:
+      underline_button:
+        description: "Enter the text for the title of the button in the composer."
+      underline_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      highlighter_button:
+        description: "Enter the text for the title of the button in the composer."
+      highlighter_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      align_center_button:
+        description: "Enter the text for the title of the button in the composer."
+      align_center_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      align_left_button:
+        description: "Enter the text for the title of the button in the composer."
+      align_left_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      align_right_button:
+        description: "Enter the text for the title of the button in the composer."
+      align_right_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      align_justify_button:
+        description: "Enter the text for the title of the button in the composer."
+      align_justify_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      strikethrough_button:
+        description: "Enter the text for the title of the button in the composer."
+      strikethrough_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      float_left_button:
+        description: "Enter the text for the title of the button in the composer."
+      float_left_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      superscript_button:
+        description: "Enter the text for the title of the button in the composer."
+      superscript_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      subscript_button:
+        description: "Enter the text for the title of the button in the composer."
+      subscript_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      columns_button:
+        description: "Enter the text for the title of the button in the composer."
+      columns_text:
+        description: "Enter the placeholder text that appears in the composer after the user clicks the button."
+      Svg_icons:
+        description: "Include FontAwesome 6 icon classes for each icon used in the list."
+      underline_button_position:
+        description: "Where to show the underline button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      strikethrough_button_position:
+        description: "Where to show the strikethrough button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      superscript_button_position:
+        description: "Where to show the superscript button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      subscript_button_position:
+        description: "Where to show the subscript button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      align_left_button_position:
+        description: "Where to show the align left button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      align_center_button_position:
+        description: "Where to show the align center button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      align_right_button_position:
+        description: "Where to show the align right button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      align_justify_button_position:
+        description: "Where to show the align justify button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      highlighter_button_position:
+        description: "Where to show the highlighter button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      columns_button_position:
+        description: "Where to show the columns button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
+      float_left_button_position:
+        description: "Where to show the float left button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+        choices:
+          toolbar: "Toolbar"
+          menu: "+ options menu"
+          hidden: "Hidden"
   js:
-    highlight_button_title: "Highlight Text"
     underline_button_title: "Underline"
-    align_center_button_title: "Center"
-    align_right_button_title: "Align Right"
-    align_justify_button_title: "Justify"
     strikethrough_button_title: "Strike-through"
     superscript_button_title: "Superscript"
     subscript_button_title: "Subscript"
+    align_left_button_title: "Align left"
+    align_center_button_title: "Center"
+    align_right_button_title: "Align right"
+    align_justify_button_title: "Justify"
+    highlight_button_title: "Highlighter"
     columns_button_title: "Columns"
-    align_left_button_title: "Align Left"
-    float_left_button: "Float Left"
+    float_left_button: "Float left"
     underline_text: "Text"
-    highlighter_text: "Text"
-    align_center_text: "Text"
-    align_left_text: "Text"
-    align_right_text: "Text"
-    align_justify_text: "Text"
     strikethrough_text: "Text"
     superscript_text: "Text"
     subscript_text: "Text"
-    columns_text: "Text"
+    align_left_text: "Text"
+    align_center_text: "Text"
+    align_right_text: "Text"
+    align_justify_text: "Text"
+    highlighter_text: "Text"
+    columns_text: "Use the closing tag to mark where the first column ends. The second column will autobreak."
     float_left_text: "Text"
-    columns_text: "Enter the placeholder text that appears in the composer after the user clicks the button."

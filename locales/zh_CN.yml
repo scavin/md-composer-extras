@@ -1,0 +1,139 @@
+zh_CN:
+  theme_metadata:
+    description: "为 Discourse 编辑器添加 11 种格式按钮，并独立设置按钮位置。"
+    settings:
+      underline_button:
+        description: "设置下划线按钮在编辑器中显示的标题。"
+      underline_text:
+        description: "设置点击下划线按钮后插入编辑器的占位文本。"
+      highlighter_button:
+        description: "设置高亮按钮在编辑器中显示的标题。"
+      highlighter_text:
+        description: "设置点击高亮按钮后插入编辑器的占位文本。"
+      align_center_button:
+        description: "设置居中按钮在编辑器中显示的标题。"
+      align_center_text:
+        description: "设置点击居中按钮后插入编辑器的占位文本。"
+      align_left_button:
+        description: "设置左对齐按钮在编辑器中显示的标题。"
+      align_left_text:
+        description: "设置点击左对齐按钮后插入编辑器的占位文本。"
+      align_right_button:
+        description: "设置右对齐按钮在编辑器中显示的标题。"
+      align_right_text:
+        description: "设置点击右对齐按钮后插入编辑器的占位文本。"
+      align_justify_button:
+        description: "设置两端对齐按钮在编辑器中显示的标题。"
+      align_justify_text:
+        description: "设置点击两端对齐按钮后插入编辑器的占位文本。"
+      strikethrough_button:
+        description: "设置删除线按钮在编辑器中显示的标题。"
+      strikethrough_text:
+        description: "设置点击删除线按钮后插入编辑器的占位文本。"
+      float_left_button:
+        description: "设置左浮动按钮在编辑器中显示的标题。"
+      float_left_text:
+        description: "设置点击左浮动按钮后插入编辑器的占位文本。"
+      superscript_button:
+        description: "设置上标按钮在编辑器中显示的标题。"
+      superscript_text:
+        description: "设置点击上标按钮后插入编辑器的占位文本。"
+      subscript_button:
+        description: "设置下标按钮在编辑器中显示的标题。"
+      subscript_text:
+        description: "设置点击下标按钮后插入编辑器的占位文本。"
+      columns_button:
+        description: "设置分栏按钮在编辑器中显示的标题。"
+      columns_text:
+        description: "设置点击分栏按钮后插入编辑器的占位文本。"
+      Svg_icons:
+        description: "包含此组件使用的 FontAwesome 6 图标名称。"
+      underline_button_position:
+        description: "下划线按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      strikethrough_button_position:
+        description: "删除线按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      superscript_button_position:
+        description: "上标按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      subscript_button_position:
+        description: "下标按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      align_left_button_position:
+        description: "左对齐按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      align_center_button_position:
+        description: "居中按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      align_right_button_position:
+        description: "右对齐按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      align_justify_button_position:
+        description: "两端对齐按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      highlighter_button_position:
+        description: "高亮按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      columns_button_position:
+        description: "分栏按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+      float_left_button_position:
+        description: "左浮动按钮位置：工具栏、+ 选项菜单或隐藏。适用于桌面和移动端。"
+        choices:
+          toolbar: "工具栏"
+          menu: "+ 选项菜单"
+          hidden: "隐藏"
+  js:
+    underline_button_title: "下划线"
+    strikethrough_button_title: "删除线"
+    superscript_button_title: "上标"
+    subscript_button_title: "下标"
+    align_left_button_title: "左对齐"
+    align_center_button_title: "居中"
+    align_right_button_title: "右对齐"
+    align_justify_button_title: "两端对齐"
+    highlight_button_title: "高亮"
+    columns_button_title: "分栏"
+    float_left_button: "左浮动"
+    underline_text: "文本"
+    strikethrough_text: "文本"
+    superscript_text: "文本"
+    subscript_text: "文本"
+    align_left_text: "文本"
+    align_center_text: "文本"
+    align_right_text: "文本"
+    align_justify_text: "文本"
+    highlighter_text: "文本"
+    columns_text: "使用结束标签标记第一栏的结尾，第二栏会自动换行。"
+    float_left_text: "文本"

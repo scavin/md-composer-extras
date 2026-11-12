@@ -25,7 +25,12 @@ const key = (format) => `${format[0]}_button_position`;
 const defaultPosition = (i) => i < 8 ? "toolbar" : "menu";
 const defaults = Object.fromEntries(formats.map((f, i) => [key(f), defaultPosition(i)]));
 
-function initialize(positions = {}) {
+function localeStrings(locale) {
+  const content = fs.readFileSync(path.join(root, `locales/${locale}.yml`), "utf8").split("  js:\n")[1];
+  return Object.fromEntries([...content.matchAll(/^    (\w+): (".*")$/gm)].map((m) => [m[1], JSON.parse(m[2])]));
+}
+
+function initialize(positions = {}, overrides = {}, locale = "en") {
   const toolbar = [], menu = [], callbacks = [];
   const js = { composer: {} };
   const settings = { ...positions };
@@ -33,13 +38,23 @@ function initialize(positions = {}) {
     settings[`${f[0]}_button`] = `Custom title: ${f[0]}`;
     settings[`${f[0]}_text`] = `Custom text: ${f[0]}`;
   }
+  Object.assign(settings, overrides);
+  const strings = localeStrings(locale);
   const api = {
     onToolbarCreate(callback) { callbacks.push(callback); },
     addComposerToolbarPopupMenuOption(option) { menu.push(option); },
   };
   vm.runInNewContext(source.replace(/^import .*;\n/gm, "").replace("export default apiInitializer", "apiInitializer"), {
     settings,
-    I18n: { currentLocale: () => "en", translations: { en: { js } } },
+    I18n: {
+      currentLocale: () => locale,
+      translations: { [locale]: { js } },
+      t: (key) => {
+        assert.ok(Object.hasOwn(strings, key), `missing ${locale} translation: ${key}`);
+        return strings[key];
+      },
+    },
+    themePrefix: (key) => key,
     require: () => ({ iconNode: () => {} }),
     apiInitializer: (_version, callback) => callback(api),
   });
@@ -106,4 +121,32 @@ test("invalid settings fall back to original positions", () => {
 });
 test("mobile CSS allows the configured justify toolbar button", () => {
   assert.doesNotMatch(fs.readFileSync(path.join(root, "mobile/mobile.scss"), "utf8"), /\.align_justify_button/);
+});
+
+for (const locale of ["en", "zh_CN"]) {
+  test(`${locale}: stock button titles and placeholders use locale strings`, () => {
+    const english = localeStrings("en");
+    const strings = localeStrings(locale);
+    const overrides = {};
+    for (const [id, , title] of formats) {
+      overrides[`${id}_button`] = english[title];
+      overrides[`${id}_text`] = english[`${id}_text`];
+    }
+    const result = initialize(defaults, overrides, locale);
+    for (const [id, , title] of formats) {
+      assert.equal(result.js[title], strings[title]);
+      assert.equal(result.js.composer[`${id}_text`], strings[`${id}_text`]);
+    }
+  });
+  test(`${locale}: custom titles and placeholders (including empty text) are preserved`, () => {
+    const result = initialize(defaults, { underline_button: "", underline_text: "" }, locale);
+    assert.equal(result.js.underline_button_title, "");
+    assert.equal(result.js.composer.underline_text, "");
+    assert.equal(result.js.highlight_button_title, "Custom title: highlighter");
+    assert.equal(result.js.composer.highlighter_text, "Custom text: highlighter");
+  });
+}
+test("English and Simplified Chinese have matching client translation keys", () => {
+  assert.deepEqual(Object.keys(localeStrings("en")).sort(), Object.keys(localeStrings("zh_CN")).sort());
+  assert.equal(Object.keys(localeStrings("en")).length, 22);
 });

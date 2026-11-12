@@ -42,6 +42,14 @@ These settings apply to both desktop and mobile. They control the editing contro
 
 Defaults preserve the original eight toolbar buttons and three menu options. Missing or invalid position values also fall back to those defaults. On mobile, justify now follows its position setting instead of being forcibly hidden by CSS. Placing many buttons on the toolbar may crowd narrow screens; move less-used formats to the menu.
 
+## Languages / 语言
+
+English and Simplified Chinese (`zh_CN`) are included for setting descriptions, position choices, default button titles, and placeholder text. The interface follows the current Discourse locale. Administrators' custom titles and placeholders are kept; values equal to the original English defaults use the locale translation. The underlying position values remain `toolbar`, `menu`, and `hidden`. On older Discourse versions without translated enum labels, these raw values may still appear.
+
+支持英文和简体中文：设置说明、位置选项、默认按钮标题和占位文本会跟随 Discourse 当前语言。自定义标题和占位文本会保留；与原英文默认值相同的内容会显示对应翻译。简体中文位置选项为“工具栏”“+ 选项菜单”“隐藏”。
+
+更新组件后，刷新管理页面，在组件设置中搜索 `button position` 或 `position`。11 个位置设置位于原有文案和图标设置之后。如果仍然看不到，请核对组件来源为 `scavin/md-composer-extras`、分支为 `main`，并确认已更新组件。
+
 ## Checks
 
 Run the dependency-free registration and formatting regression checks with Node.js 18 or newer:
