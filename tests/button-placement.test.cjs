@@ -40,6 +40,13 @@ function initialize(positions = {}, overrides = {}, locale = "en") {
   }
   Object.assign(settings, overrides);
   const strings = localeStrings(locale);
+  // Discourse retains the locale file's js section inside the theme namespace.
+  js.theme_translations = { 44: { js: strings } };
+  const translate = (key) => {
+    const value = key.split(".").reduce((node, part) => node?.[part], js);
+    assert.equal(typeof value, "string", `missing ${locale} translation: ${key}`);
+    return value;
+  };
   const api = {
     onToolbarCreate(callback) { callbacks.push(callback); },
     addComposerToolbarPopupMenuOption(option) { menu.push(option); },
@@ -49,12 +56,9 @@ function initialize(positions = {}, overrides = {}, locale = "en") {
     I18n: {
       currentLocale: () => locale,
       translations: { [locale]: { js } },
-      t: (key) => {
-        assert.ok(Object.hasOwn(strings, key), `missing ${locale} translation: ${key}`);
-        return strings[key];
-      },
+      t: translate,
     },
-    themePrefix: (key) => key,
+    themePrefix: (key) => `theme_translations.44.${key}`,
     require: () => ({ iconNode: () => {} }),
     apiInitializer: (_version, callback) => callback(api),
   });
@@ -64,7 +68,7 @@ function initialize(positions = {}, overrides = {}, locale = "en") {
     return buttons;
   };
   toolbar.push(...createToolbar());
-  return { toolbar, menu, js, createToolbar };
+  return { toolbar, menu, js, createToolbar, translate };
 }
 
 function check(positions, expected) {
@@ -135,6 +139,7 @@ for (const locale of ["en", "zh_CN"]) {
     const result = initialize(defaults, overrides, locale);
     for (const [id, , title] of formats) {
       assert.equal(result.js[title], strings[title]);
+      assert.equal(result.translate(title), strings[title]);
       assert.equal(result.js.composer[`${id}_text`], strings[`${id}_text`]);
     }
   });
@@ -150,3 +155,26 @@ test("English and Simplified Chinese have matching client translation keys", () 
   assert.deepEqual(Object.keys(localeStrings("en")).sort(), Object.keys(localeStrings("zh_CN")).sort());
   assert.equal(Object.keys(localeStrings("en")).length, 22);
 });
+
+for (const locale of ["en", "zh_CN"]) {
+  for (const position of ["toolbar", "menu"]) {
+    test(`${locale}: all stock titles resolve in ${position} through the theme namespace`, () => {
+      const english = localeStrings("en");
+      const strings = localeStrings(locale);
+      const positions = Object.fromEntries(formats.map((f) => [key(f), position]));
+      const overrides = {};
+      for (const [id, , title] of formats) {
+        overrides[`${id}_button`] = english[title];
+        overrides[`${id}_text`] = english[`${id}_text`];
+      }
+      const result = initialize(positions, overrides, locale);
+      const controls = position === "menu" ? result.menu : result.toolbar;
+      assert.equal(controls.length, 11);
+      for (const control of controls) {
+        const title = control.label || control.title;
+        assert.equal(result.translate(title), strings[title]);
+        assert.doesNotMatch(result.translate(title), /theme_translations|translation missing/);
+      }
+    });
+  }
+}

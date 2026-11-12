@@ -19,10 +19,11 @@ export default apiInitializer("0.11.1", (api) => {
 
   // Localize stock text while preserving administrator-supplied titles/placeholders.
   // Keep the existing global keys used by toolbar titles and applySurround.
+  // Theme translations retain the js section from locales/*.yml.
   const localizedSetting = (name, defaultValue, translationKey) => {
     const value = settings[name];
     return value === undefined || value === defaultValue
-      ? I18n.t(themePrefix(translationKey))
+      ? I18n.t(themePrefix(`js.${translationKey}`))
       : value;
   };
 
