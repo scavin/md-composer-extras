@@ -93,3 +93,113 @@ Svg_icons:
   default: 'align-center|align-right|align-justify|strikethrough|underline|indent|table-columns|superscript|subscript|highlighter'
   description: 
     en: "Include FontAwesome 6 icon classes for each icon used in the list."
+
+underline_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the underline button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+strikethrough_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the strikethrough button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+superscript_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the superscript button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+subscript_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the subscript button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+align_left_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the align left button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+align_center_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the align center button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+align_right_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the align right button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+align_justify_button_position:
+  type: enum
+  default: toolbar
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the align justify button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+highlighter_button_position:
+  type: enum
+  default: menu
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the highlighter button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+columns_button_position:
+  type: enum
+  default: menu
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the columns button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
+
+float_left_button_position:
+  type: enum
+  default: menu
+  choices:
+    - toolbar
+    - menu
+    - hidden
+  description:
+    en: "Where to show the float left button: toolbar, the + options menu, or hidden. Applies on desktop and mobile."
