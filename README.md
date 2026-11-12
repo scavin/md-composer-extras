@@ -60,12 +60,16 @@ node --test tests/button-placement.test.cjs
 
 These checks exercise all positions, mixed settings, defaults, custom text, and unchanged formatting actions and shortcuts. A live Discourse desktop/mobile check is still recommended before deployment; the checks do not render the composer.
 
+For browser layout checks, serve the repository root (for example, `python3 -m http.server 8765 --bind 127.0.0.1`) and open `http://127.0.0.1:8765/tests/columns-preview.html`. The fixture reads the component styles and checks title alignment, right-hand text containment at four preview widths, unchanged posted paragraph geometry, ordinary previews, and mobile stacking. It uses standalone markup matching the Markdown output and does not replace a live Discourse check.
+
 
 ## Columns and Floats
 
 When using columns and floats, note that the text will autobreak once an appropriate amount of content has been placed in the second column or to the side of the float.
 
 Columns have a CSS border to for ease of viewing.
+
+Desktop Markdown previews normalize paragraph spacing inside the left column and keep each following right-hand paragraph in its own formatting context. This aligns titles and prevents a long paragraph from wrapping back underneath the left column. Posted content and the mobile single-column layout keep their existing styles. The syntax still uses a float: later blocks may return to full width after the left column ends; it is not a fixed two-column grid.
 
 A column is broken by placing `[/wrap]` at the end of the first column's content.
 

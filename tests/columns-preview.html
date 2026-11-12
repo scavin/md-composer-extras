@@ -1,0 +1,71 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Columns preview layout regression</title>
+<style>
+body { font: 14px system-ui; margin: 24px; }
+iframe { border: 1px solid #aaa; height: 240px; display: block; margin: 8px 0 24px; }
+.pass { color: #167126; } .fail { color: #b00; }
+</style>
+<h1>Columns preview layout regression</h1>
+<p>Serve the repository root over HTTP and open this file in a modern browser. This reads the actual component styles; native CSS nesting handles the simple SCSS nesting used here. Discourse's color variable is replaced for the standalone fixture.</p>
+<pre id="results">Running…</pre>
+<div id="fixtures"></div>
+<script type="module">
+const readStyle = async (path) => {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error(`Cannot read ${path}: ${response.status}`);
+  return (await response.text()).replace(/^\s*\/\/.*$/gm, "").replaceAll("$primary", "#888");
+};
+const [desktop, mobile] = await Promise.all([readStyle("../desktop/desktop.scss"), readStyle("../mobile/mobile.scss")]);
+const marker = ".d-editor-preview {";
+if (!desktop.includes(marker)) throw new Error("Missing preview fix");
+const before = desktop.slice(0, desktop.indexOf(marker));
+const content = `<div class="d-wrap" data-wrap="columns"><p>《山中》· 王维</p><p>荆溪白石出，天寒红叶稀。<br>山路元无雨，空翠湿人衣。</p></div><p>《约客》· 赵师秀</p><p>黄梅时节家家雨，青草池塘处处蛙。<br>有约不来过夜半，闲敲棋子落灯花。</p>`;
+const output = [];
+let checks = 0;
+const check = (condition, name) => {
+  checks++;
+  output.push(`${condition ? "PASS" : "FAIL"} ${name}`);
+  if (!condition) document.getElementById("results").className = "fail";
+};
+async function render(width, style, type, html = content) {
+  const frame = document.createElement("iframe");
+  frame.style.width = `${width}px`;
+  const loaded = new Promise((resolve) => frame.onload = resolve);
+  frame.srcdoc = `<!doctype html><style>.d-editor-preview{overflow-x:hidden}body{margin:0;font:16px/1.5 system-ui}*{box-sizing:border-box}.cooked p{margin-top:20px;margin-bottom:20px}${style}</style><div class="${type}">${html}</div>`;
+  document.getElementById("fixtures").append(frame);
+  await loaded;
+  await frame.contentDocument.fonts.ready;
+  const doc = frame.contentDocument;
+  const left = doc.querySelector('[data-wrap="columns"]');
+  const paragraphs = [...doc.querySelectorAll("p")];
+  const rects = paragraphs.map((p) => {
+    const r = p.getBoundingClientRect();
+    return [r.x, r.y, r.width, r.height];
+  });
+  let contained = true;
+  if (left) {
+    const range = doc.createRange();
+    range.selectNodeContents(paragraphs.at(-1));
+    contained = [...range.getClientRects()].every((r) => r.width === 0 || r.x >= left.getBoundingClientRect().right);
+  }
+  return { rects, contained, aligned: !left || Math.abs(rects[0][1] - rects[2][1]) < 1, float: left && frame.contentWindow.getComputedStyle(left).float };
+}
+for (const width of [360, 480, 640, 900]) {
+  const old = await render(width, before, "d-editor-preview");
+  check(!old.aligned, `${width}px: reproduces old title offset`);
+  const fixed = await render(width, desktop, "d-editor-preview");
+
+  check(fixed.aligned, `${width}px: preview titles align`);
+  check(fixed.contained, `${width}px: every right-hand text line stays beside the left column`);
+  const postedBefore = await render(width, before, "cooked");
+  const postedAfter = await render(width, desktop, "cooked");
+  check(JSON.stringify(postedBefore.rects) === JSON.stringify(postedAfter.rects), `${width}px: posted paragraph geometry unchanged`);
+}
+const ordinary = "<p>Ordinary title</p><p>Ordinary paragraph</p>";
+check(JSON.stringify((await render(480, before, "d-editor-preview", ordinary)).rects) === JSON.stringify((await render(480, desktop, "d-editor-preview", ordinary)).rects), "ordinary preview unchanged");
+const onMobile = await render(360, mobile, "d-editor-preview");
+check(onMobile.float === "none" && onMobile.rects[2][1] >= onMobile.rects[1][1] + onMobile.rects[1][3], "mobile retains stacked content");
+document.getElementById("results").textContent = `${checks} checks\n${output.join("\n")}`;
+if (!output.some((line) => line.startsWith("FAIL"))) document.getElementById("results").className = "pass";
+</script>
