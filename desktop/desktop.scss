@@ -24,3 +24,17 @@
 [data-wrap="floatc"] {
   clear: both;
 }
+
+// Preview does not inherit paragraph spacing from the posted .cooked container.
+// Keep both sides aligned, and keep a long right-hand paragraph beside the float
+// instead of letting its last lines run back underneath the left column.
+.d-editor-preview {
+  [data-wrap="columns"] > p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  [data-wrap="columns"] ~ p {
+    display: flow-root;
+  }
+}
