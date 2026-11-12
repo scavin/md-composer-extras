@@ -16,7 +16,42 @@ This Discourse theme component adds formatting options to your Discourse compose
 
 These additions are responsive for desktops and phones, but not for horizon orientation or tablets. These additions have taken into consideration [Slick](https://github.com/discourse/Discourse-Slick-image-gallery), [Tiles](https://github.com/discourse/Discourse-Tiles-image-gallery), and [Events](https://github.com/angusmcleod/discourse-events) when determining what should be placed on the composer bar or in the composer pop out menu.
 
-There is currently no implemented option for disabling particular buttons, but this can be done through CSS.
+## Button placement
+
+In the theme component settings, each format has its own `*_button_position` dropdown:
+
+- `toolbar`: show the button directly on the composer toolbar.
+- `menu`: show the button in the **+ / options** popup menu.
+- `hidden`: do not register the button or its keyboard shortcut.
+
+These settings apply to both desktop and mobile. They control the editing controls, not whether existing formatted posts render. After saving settings, reload the page to rebuild the composer controls. Existing button-title and placeholder-text settings still apply in either location. Icons, formatting actions, and shortcuts (Ctrl/Meta+U for underline and Ctrl/Meta+H for highlighter) are preserved when moving a button.
+
+| Setting | Default |
+| --- | --- |
+| `underline_button_position` | `toolbar` |
+| `strikethrough_button_position` | `toolbar` |
+| `superscript_button_position` | `toolbar` |
+| `subscript_button_position` | `toolbar` |
+| `align_left_button_position` | `toolbar` |
+| `align_center_button_position` | `toolbar` |
+| `align_right_button_position` | `toolbar` |
+| `align_justify_button_position` | `toolbar` |
+| `highlighter_button_position` | `menu` |
+| `columns_button_position` | `menu` |
+| `float_left_button_position` | `menu` |
+
+Defaults preserve the original eight toolbar buttons and three menu options. Missing or invalid position values also fall back to those defaults. On mobile, justify now follows its position setting instead of being forcibly hidden by CSS. Placing many buttons on the toolbar may crowd narrow screens; move less-used formats to the menu.
+
+## Checks
+
+Run the dependency-free registration and formatting regression checks with Node.js 18 or newer:
+
+```sh
+node --test tests/button-placement.test.cjs
+```
+
+These checks exercise all positions, mixed settings, defaults, custom text, and unchanged formatting actions and shortcuts. A live Discourse desktop/mobile check is still recommended before deployment; the checks do not render the composer.
+
 
 ## Columns and Floats
 

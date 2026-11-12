@@ -41,92 +41,115 @@ export default apiInitializer("0.11.1", (api) => {
   I18n.translations[currentLocale].js.composer.columns_text = settings.columns_text;
   I18n.translations[currentLocale].js.composer.float_left_text = settings.float_left_text;
 
-  // Toolbar Button Definitions
+  // One definition per format keeps both locations using the same action.
+  const buttons = [
+    {
+      id: "underline_button",
+      group: "fontStyles",
+      icon: "underline",
+      shortcut: "U",
+      title: "underline_button_title",
+      perform: (e) => e.applySurround("[u]", "[/u]", "underline_text"),
+    },
+    {
+      id: "strikethrough_button",
+      group: "fontStyles",
+      icon: "strikethrough",
+      title: "strikethrough_button_title",
+      perform: (e) => e.applySurround("<s>", "</s>", "strikethrough_text"),
+    },
+    {
+      id: "superscript_button",
+      group: "fontStyles",
+      icon: "superscript",
+      title: "superscript_button_title",
+      perform: (e) => e.applySurround("<sup>", "</sup>", "superscript_text"),
+    },
+    {
+      id: "subscript_button",
+      group: "fontStyles",
+      icon: "subscript",
+      title: "subscript_button_title",
+      perform: (e) => e.applySurround("<sub>", "</sub>", "subscript_text"),
+    },
+    {
+      id: "align_left_button",
+      group: "extras",
+      icon: "align-left",
+      title: "align_left_button_title",
+      perform: (e) => e.applySurround('[wrap="left"]\n', "\n[/wrap]", "float_left_text"),
+    },
+    {
+      id: "align_center_button",
+      group: "extras",
+      icon: "align-center",
+      title: "align_center_button_title",
+      perform: (e) => e.applySurround('[wrap="center"]\n', "\n[/wrap]", "align_center_text"),
+    },
+    {
+      id: "align_right_button",
+      group: "extras",
+      icon: "align-right",
+      title: "align_right_button_title",
+      perform: (e) => e.applySurround('[wrap="right"]\n', "\n[/wrap]", "align_right_text"),
+    },
+    {
+      id: "align_justify_button",
+      group: "extras",
+      icon: "align-justify",
+      title: "align_justify_button_title",
+      perform: (e) => e.applySurround('[wrap="justify"]\n', "\n[/wrap]", "align_justify_text"),
+    },
+    {
+      id: "highlighter_button",
+      group: "extras",
+      icon: "highlighter",
+      title: "highlight_button_title",
+      shortcut: "H",
+      perform: (e) => e.applySurround("<mark>", "</mark>", "highlighter_text"),
+      defaultPosition: "menu",
+    },
+    {
+      id: "columns_button",
+      group: "extras",
+      icon: "table-columns",
+      title: "columns_button_title",
+      perform: (e) => e.applySurround('[wrap="columns"]\n', "\n[/wrap]", "columns_text"),
+      defaultPosition: "menu",
+    },
+    {
+      id: "float_left_button",
+      group: "extras",
+      icon: "indent",
+      title: "float_left_button",
+      perform: (e) => e.applySurround('[wrap="floatl"]\n', "\n[/wrap]", "float_left_text"),
+      defaultPosition: "menu",
+    },
+  ].map(({ defaultPosition = "toolbar", ...button }) => {
+    const configuredPosition = settings[`${button.id}_position`];
+    const position = ["toolbar", "menu", "hidden"].includes(configuredPosition)
+      ? configuredPosition
+      : defaultPosition;
+
+    return { button, position };
+  });
+
   api.onToolbarCreate((toolbar) => {
-    const buttons = [
-      {
-        id: "underline_button",
-        group: "fontStyles",
-        icon: "underline",
-        shortcut: "U",
-        title: "underline_button_title",
-        perform: (e) => e.applySurround("[u]", "[/u]", "underline_text"),
-      },
-      {
-        id: "strikethrough_button",
-        group: "fontStyles",
-        icon: "strikethrough",
-        title: "strikethrough_button_title",
-        perform: (e) => e.applySurround("<s>", "</s>", "strikethrough_text"),
-      },
-      {
-        id: "superscript_button",
-        group: "fontStyles",
-        icon: "superscript",
-        title: "superscript_button_title",
-        perform: (e) => e.applySurround("<sup>", "</sup>", "superscript_text"),
-      },
-      {
-        id: "subscript_button",
-        group: "fontStyles",
-        icon: "subscript",
-        title: "subscript_button_title",
-        perform: (e) => e.applySurround("<sub>", "</sub>", "subscript_text"),
-      },
-      {
-        id: "align_left_button",
-        group: "extras",
-        icon: "align-left",
-        title: "align_left_button_title",
-        perform: (e) => e.applySurround('[wrap="left"]\n', "\n[/wrap]", "float_left_text"),
-      },
-      {
-        id: "align_center_button",
-        group: "extras",
-        icon: "align-center",
-        title: "align_center_button_title",
-        perform: (e) => e.applySurround('[wrap="center"]\n', "\n[/wrap]", "align_center_text"),
-      },
-      {
-        id: "align_right_button",
-        group: "extras",
-        icon: "align-right",
-        title: "align_right_button_title",
-        perform: (e) => e.applySurround('[wrap="right"]\n', "\n[/wrap]", "align_right_text"),
-      },
-      {
-        id: "align_justify_button",
-        group: "extras",
-        icon: "align-justify",
-        title: "align_justify_button_title",
-        perform: (e) => e.applySurround('[wrap="justify"]\n', "\n[/wrap]", "align_justify_text"),
-      },
-    ];
-
-    buttons.forEach((button) => toolbar.addButton(button));
+    buttons.forEach(({ button, position }) => {
+      if (position === "toolbar") {
+        toolbar.addButton(button);
+      }
+    });
   });
 
-  api.addComposerToolbarPopupMenuOption({
-    action: (toolbarEvent) => {
-      toolbarEvent.applySurround('<mark>', '</mark>', "highlighter_text");
-    },
-    icon: "highlighter",
-    label: "highlight_button_title",
-    shortcut: "H",
-  });
-
-  api.addComposerToolbarPopupMenuOption({
-    action: (toolbarEvent) =>
-      toolbarEvent.applySurround('[wrap="columns"]\n', "\n[/wrap]", "columns_text"),
-    icon: "table-columns",
-    label: "columns_button_title",
-  });
-
-  api.addComposerToolbarPopupMenuOption({
-    action: (toolbarEvent) => {
-      toolbarEvent.applySurround('[wrap="floatl"]\n', '\n[/wrap]', "float_left_text");
-    },
-    icon: 'indent',
-    label: 'float_left_button',
+  buttons.forEach(({ button, position }) => {
+    if (position === "menu") {
+      api.addComposerToolbarPopupMenuOption({
+        icon: button.icon,
+        label: button.title,
+        shortcut: button.shortcut,
+        action: button.perform,
+      });
+    }
   });
 });
